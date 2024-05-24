@@ -40,7 +40,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_clean_architecture: ^5.0.4
   hexcolor: ^3.0.1
-  bloc: ^8.1.0
+  flutter_bloc: ^8.1.5
+  equatable: ^2.0.5
+  dio: ^5.4.3+1
+  shared_preferences: ^2.2.3
+  cached_network_image: ^3.3.1
 
 
 

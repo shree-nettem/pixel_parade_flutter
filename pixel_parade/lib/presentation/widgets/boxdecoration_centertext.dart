@@ -6,29 +6,34 @@ class BoxDecorationWithCenterText extends StatelessWidget {
   final String title;
   final HexColor color;
   final HexColor borderColor;
+  final double rightPadding;
 
   const BoxDecorationWithCenterText(
       {super.key,
       required this.title,
       required this.borderColor,
-      required this.color});
+      required this.color,
+      this.rightPadding = 10});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-        border: Border.all(color: borderColor, width: 1),
-        borderRadius: BorderRadius.circular(20),
-        shape: BoxShape.rectangle,
-      ),
-      width: 100,
-      height: 70,
-      child: Center(
-        child: NeoText(
-            text: title,
-            size: 14,
-            color: Colors.black,
-            fontWeight: FontWeight.w500),
+    return Padding(
+      padding: EdgeInsets.only(right: rightPadding),
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          border: Border.all(color: borderColor, width: 1),
+          borderRadius: BorderRadius.circular(20),
+          shape: BoxShape.rectangle,
+        ),
+        width: 100,
+        height: 70,
+        child: Center(
+          child: NeoText(
+              text: title,
+              size: 14,
+              color: Colors.black,
+              fontWeight: FontWeight.w500),
+        ),
       ),
     );
   }

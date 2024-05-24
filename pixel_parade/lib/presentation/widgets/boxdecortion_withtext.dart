@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:pixel_parade/presentation/widgets/textwidgets.dart';
@@ -31,11 +32,17 @@ class BoxDecorationWithText extends StatelessWidget {
             shape: BoxShape.rectangle,
           ),
           child: Container(
-            margin: EdgeInsets.all(12),
-            child: Image.asset(
-              image,
-              fit: BoxFit.contain,
-            ),
+            margin: const EdgeInsets.all(12),
+            child: image.contains("http")
+                ? CachedNetworkImage(
+                    imageUrl: image,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Container(),
+                  )
+                : Image.asset(image),
           ),
         ),
         Positioned(

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -28,7 +29,19 @@ class BoxDecorationWithCenterImageSmall extends StatelessWidget {
                   ),
                   child: Container(
                     margin: EdgeInsets.all(10),
-                    child: Image.asset(image, fit: BoxFit.contain),
+                    child: image.contains("http")
+                        ? CachedNetworkImage(
+                            imageUrl: image,
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) => SizedBox(
+                              width: 10,
+                              height: 10,
+                              child: CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                            ),
+                            errorWidget: (context, url, error) => Container(),
+                          )
+                        : Image.asset(image),
                   )),
             ],
           ),

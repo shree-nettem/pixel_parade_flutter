@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:pixel_parade/home.dart';
+import 'package:pixel_parade/features/home_feature/UI/home.dart';
+import 'package:pixel_parade/features/home_feature/bloc/bloc/home_bloc.dart';
 import 'package:pixel_parade/presentation/widgets/boxdecoration_with_cennterimage.dart';
 import 'package:pixel_parade/presentation/widgets/boxdecortion_withtext.dart';
 import 'package:pixel_parade/presentation/widgets/textwidgets.dart';
+
+import 'network/api_constants.dart';
 
 class MyCollection extends StatefulWidget {
   const MyCollection({super.key});
@@ -18,6 +23,7 @@ class _MyCollection extends State<MyCollection> {
     return Scaffold(
         backgroundColor: HexColor("#FAFCFF"),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               alignment: Alignment.bottomLeft,
@@ -44,39 +50,35 @@ class _MyCollection extends State<MyCollection> {
                 ],
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height - 148,
-              child: SingleChildScrollView(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 20),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: NeoText(
-                            text: "All Collections (6)",
-                            size: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20, left: 20),
-                        child: NeoText(
-                            text:
-                                "Praesent molestie nec dolor vitae dignissim.",
-                            size: 13,
-                            color: HexColor("#6E6E6E"),
-                            fontWeight: FontWeight.w500),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height + 80,
-                          child: GridView(
-                            physics: const NeverScrollableScrollPhysics(),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: NeoText(
+                  text: "All Collections (6)",
+                  size: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20, left: 20),
+              child: NeoText(
+                  text: "Praesent molestie nec dolor vitae dignissim.",
+                  size: 13,
+                  color: HexColor("#6E6E6E"),
+                  fontWeight: FontWeight.w500),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: BlocBuilder<HomeBloc, HomeState>(
+                  builder: (context, state) {
+                    return (state is HomeLoaded)
+                        ? GridView.builder(
+                            // physics:
+                            //     const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             primary: true,
                             gridDelegate:
@@ -85,67 +87,31 @@ class _MyCollection extends State<MyCollection> {
                                     crossAxisSpacing: 20,
                                     childAspectRatio: 1 / 1.2,
                                     mainAxisSpacing: 10),
-                            children: [
-                              BoxDecorationWithCenterImage(
-                                price: 'Free',
-                                hexColor: HexColor("#C1B444"),
-                                title: 'New Years Eve',
-                                noOfStrickers: 9,
-                                image: 'assets/images/sticker1.png',
-                              ),
-                              BoxDecorationWithCenterImage(
-                                  price: '\$0.99',
-                                  hexColor: HexColor("#87FFD4"),
-                                  title: 'Good Christmas',
-                                  noOfStrickers: 91,
-                                  image: 'assets/images/sticker2.png'),
-                              BoxDecorationWithCenterImage(
-                                  price: 'Free',
-                                  hexColor: HexColor("#C1B444"),
-                                  title: 'Holiday Baloons',
-                                  noOfStrickers: 46,
-                                  image: 'assets/images/sticker3.png'),
-                              BoxDecorationWithCenterImage(
-                                  price: 'Free',
-                                  hexColor: HexColor("#C1B444"),
-                                  title: 'New Years Eve',
-                                  noOfStrickers: 9,
-                                  image: 'assets/images/sticker4.png'),
-                              BoxDecorationWithCenterImage(
-                                  price: '\$0.99',
-                                  hexColor: HexColor("#87FFD4"),
-                                  title: 'Good Christmas',
-                                  noOfStrickers: 91,
-                                  image: 'assets/images/sticker5.png'),
-                              BoxDecorationWithCenterImage(
-                                  price: 'Free',
-                                  hexColor: HexColor("#C1B444"),
-                                  title: 'Holiday Baloons',
-                                  noOfStrickers: 46,
-                                  image: 'assets/images/sticker6.png'),
-                              BoxDecorationWithCenterImage(
-                                  price: 'Free',
-                                  hexColor: HexColor("#C1B444"),
-                                  title: 'New Years Eve',
-                                  noOfStrickers: 9,
-                                  image: 'assets/images/sticker1.png'),
-                              BoxDecorationWithCenterImage(
-                                  price: '\$0.99',
-                                  hexColor: HexColor("#87FFD4"),
-                                  title: 'Good Christmas',
-                                  noOfStrickers: 91,
-                                  image: 'assets/images/sticker2.png'),
-                              BoxDecorationWithCenterImage(
-                                  price: 'Free',
-                                  hexColor: HexColor("#C1B444"),
-                                  title: 'Holiday Baloons',
-                                  noOfStrickers: 46,
-                                  image: 'assets/images/sticker3.png'),
-                            ],
-                          ),
-                        ),
-                      )
-                    ]),
+                            itemCount: state.totalStickers.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return InkWell(
+                                onTap: () => Navigator.pushNamed(
+                                    context, 'stickersPreview',
+                                    arguments: state.totalStickers[index]),
+                                child: BoxDecorationWithText(
+                                  price: state.totalStickers[index].price != 0
+                                      ? "${state.totalStickers[index].price}"
+                                      : 'Free',
+                                  hexColor:
+                                      state.totalStickers[index].price != 0
+                                          ? HexColor("#87FFD4")
+                                          : HexColor("#C1B444"),
+                                  title: state.totalStickers[index].name,
+                                  noOfStrickers: state
+                                      .totalStickers[index].stickers.length,
+                                  image:
+                                      "${ApiConstants.baseUrlForImages}/${state.totalStickers[index].stickers[0].filename}",
+                                ),
+                              );
+                            })
+                        : Container();
+                  },
+                ),
               ),
             ),
           ],

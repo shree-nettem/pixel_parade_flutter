@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixel_parade/dashboard_widget.dart';
-import 'package:pixel_parade/home.dart';
+import 'package:pixel_parade/features/home_feature/UI/dashboard_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
