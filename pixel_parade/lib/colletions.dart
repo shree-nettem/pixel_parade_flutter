@@ -54,7 +54,7 @@ class _MyCollection extends State<MyCollection> {
             const Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: NeoText(
-                  text: "All Collections (6)",
+                  text: "All Collections",
                   size: 16,
                   color: Colors.black,
                   fontWeight: FontWeight.w600),
@@ -65,7 +65,7 @@ class _MyCollection extends State<MyCollection> {
             Padding(
               padding: const EdgeInsets.only(right: 20, left: 20),
               child: NeoText(
-                  text: "Praesent molestie nec dolor vitae dignissim.",
+                  text: "View all listed collections",
                   size: 13,
                   color: HexColor("#6E6E6E"),
                   fontWeight: FontWeight.w500),

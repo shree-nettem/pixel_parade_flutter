@@ -69,3 +69,20 @@ final class KeywordsError extends KeywordsState {
   final String? message;
   const KeywordsError(this.message);
 }
+
+@immutable
+abstract class BottomBarState extends Equatable {
+  const BottomBarState();
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class BottomBarInitial extends BottomBarState {}
+
+final class BottomBarNewIndexUpdate extends BottomBarState {
+  final int newValue;
+  const BottomBarNewIndexUpdate(this.newValue);
+}
+
+final class BottomBarValueUpdated extends BottomBarState {}

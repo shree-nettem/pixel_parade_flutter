@@ -5,14 +5,15 @@ class NeoText extends StatelessWidget {
   final double size;
   final Color color;
   final FontWeight fontWeight;
+  final TextAlign textAlign;
 
-  const NeoText({
-    super.key,
-    required this.text,
-    required this.size,
-    required this.color,
-    required this.fontWeight,
-  });
+  const NeoText(
+      {super.key,
+      required this.text,
+      required this.size,
+      required this.color,
+      required this.fontWeight,
+      this.textAlign = TextAlign.start});
   @override
   Widget build(BuildContext context) {
     return Text(
@@ -22,7 +23,7 @@ class NeoText extends StatelessWidget {
           fontSize: size,
           fontFamily: "Inter",
           fontWeight: fontWeight),
-      textAlign: TextAlign.center,
+      textAlign: textAlign,
     );
   }
 }

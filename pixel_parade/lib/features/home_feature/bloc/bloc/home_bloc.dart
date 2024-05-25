@@ -66,3 +66,29 @@ class KeywordsBloc extends Bloc<KeywordsEvent, KeywordsState> {
     }
   }
 }
+
+class BottomBarBloc extends Bloc<BottomBarEvent, BottomBarState> {
+  BottomBarBloc() : super(BottomBarInitial()) {
+    on<BottomBarUpdateHomeEvent>(bottombarUpdateHome);
+    on<BottomBarUpdateCategoriesEvent>(bottombarUpdateCategories);
+    on<BottomBarUpdateCollectionEvent>(bottombarUpdateCollection);
+  }
+
+  FutureOr<void> bottombarUpdateHome(
+      BottomBarUpdateHomeEvent event, Emitter<BottomBarState> emit) async {
+    emit(const BottomBarNewIndexUpdate(0));
+    emit(BottomBarValueUpdated());
+  }
+
+  FutureOr<void> bottombarUpdateCategories(BottomBarUpdateCategoriesEvent event,
+      Emitter<BottomBarState> emit) async {
+    emit(const BottomBarNewIndexUpdate(2));
+    emit(BottomBarValueUpdated());
+  }
+
+  FutureOr<void> bottombarUpdateCollection(BottomBarUpdateCollectionEvent event,
+      Emitter<BottomBarState> emit) async {
+    emit(const BottomBarNewIndexUpdate(1));
+    emit(BottomBarValueUpdated());
+  }
+}

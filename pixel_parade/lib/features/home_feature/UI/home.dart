@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_parade/features/home_feature/bloc/bloc/home_bloc.dart';
 import 'package:pixel_parade/network/api_constants.dart';
@@ -7,6 +8,8 @@ import 'package:pixel_parade/presentation/widgets/boxdecoration_centertext.dart'
 import 'package:pixel_parade/presentation/widgets/boxdecortion_withtext.dart';
 import 'package:pixel_parade/presentation/widgets/textwidgets.dart';
 import 'package:hexcolor/hexcolor.dart';
+
+import 'dashboard_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -81,23 +84,26 @@ class _HomeScreen extends State<HomeScreen> {
                         const SizedBox(
                           width: 12,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            NeoText(
-                                text: 'Customise your design',
-                                size: 16,
-                                color: HexColor("#006FFD"),
-                                fontWeight: FontWeight.w500),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            NeoText(
-                                text: 'Lorem ipsum dolor sit amet',
-                                size: 14,
-                                color: HexColor("#436692"),
-                                fontWeight: FontWeight.w500)
-                          ],
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              NeoText(
+                                  text: 'Customise your design',
+                                  size: 16,
+                                  color: HexColor("#006FFD"),
+                                  fontWeight: FontWeight.w500),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              NeoText(
+                                  text:
+                                      'By using your camera you can customise sticker',
+                                  size: 14,
+                                  color: HexColor("#436692"),
+                                  fontWeight: FontWeight.w500)
+                            ],
+                          ),
                         )
                       ]),
                 ),
@@ -143,11 +149,19 @@ class _HomeScreen extends State<HomeScreen> {
                               size: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.w600),
-                          NeoText(
-                              text: "View All",
-                              size: 12,
-                              color: HexColor("#006FFD"),
-                              fontWeight: FontWeight.w600)
+                          InkWell(
+                            onTap: () {
+                              final BottomBarBloc bottombarBloc =
+                                  BlocProvider.of<BottomBarBloc>(context);
+                              bottombarBloc
+                                  .add(BottomBarUpdateCollectionEvent());
+                            },
+                            child: NeoText(
+                                text: "View All",
+                                size: 12,
+                                color: HexColor("#006FFD"),
+                                fontWeight: FontWeight.w600),
+                          )
                         ],
                       ),
                       const SizedBox(
@@ -211,11 +225,19 @@ class _HomeScreen extends State<HomeScreen> {
                               size: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.w600),
-                          NeoText(
-                              text: "View All",
-                              size: 12,
-                              color: HexColor("#006FFD"),
-                              fontWeight: FontWeight.w600)
+                          InkWell(
+                            onTap: () {
+                              final BottomBarBloc bottombarBloc =
+                                  BlocProvider.of<BottomBarBloc>(context);
+                              bottombarBloc
+                                  .add(BottomBarUpdateCategoriesEvent());
+                            },
+                            child: NeoText(
+                                text: "View All",
+                                size: 12,
+                                color: HexColor("#006FFD"),
+                                fontWeight: FontWeight.w600),
+                          )
                         ],
                       ),
                       const SizedBox(
@@ -310,7 +332,7 @@ class _HomeScreen extends State<HomeScreen> {
                         height: 10,
                       ),
                       NeoText(
-                          text: "Praesent molestie nec dolor vitae dignissim.",
+                          text: "View all recently viewed stickers",
                           size: 13,
                           color: HexColor("#6E6E6E"),
                           fontWeight: FontWeight.w500),

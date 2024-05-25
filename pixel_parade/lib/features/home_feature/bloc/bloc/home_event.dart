@@ -14,3 +14,12 @@ class HomeBannerFetchEvent extends BannerEvent {}
 sealed class KeywordsEvent {}
 
 class KeywordsFetchEvent extends KeywordsEvent {}
+
+@immutable
+sealed class BottomBarEvent {}
+
+class BottomBarUpdateHomeEvent extends BottomBarEvent {}
+
+class BottomBarUpdateCollectionEvent extends BottomBarEvent {}
+
+class BottomBarUpdateCategoriesEvent extends BottomBarEvent {}

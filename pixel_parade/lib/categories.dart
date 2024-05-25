@@ -61,12 +61,12 @@ class _MyCategoriesState extends State<MyCategories> {
                       fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: NeoText(
-                      text: "Praesent molestie nec dolor vitae dignissim.",
+                      text: "These are most popular category",
                       size: 13,
                       color: HexColor("#6E6E6E"),
                       fontWeight: FontWeight.w500),
@@ -118,12 +118,12 @@ class _MyCategoriesState extends State<MyCategories> {
                       fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: NeoText(
-                      text: "Praesent molestie nec dolor vitae dignissim.",
+                      text: "View all updated categories",
                       size: 13,
                       color: HexColor("#6E6E6E"),
                       fontWeight: FontWeight.w500),

@@ -32,6 +32,7 @@ class BoxDecorationWithCenterText extends StatelessWidget {
               text: title,
               size: 14,
               color: Colors.black,
+              textAlign: TextAlign.center,
               fontWeight: FontWeight.w500),
         ),
       ),

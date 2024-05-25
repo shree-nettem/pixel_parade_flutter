@@ -13,6 +13,8 @@ class DashboardWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _DashboardWidget();
 }
 
+GlobalKey bottomNavigationKey = GlobalKey();
+
 class _DashboardWidget extends State<DashboardWidget> {
   int _currentIndex = 0;
 
@@ -21,6 +23,7 @@ class _DashboardWidget extends State<DashboardWidget> {
   final homeBloc = HomeBloc();
   final bannerBloc = BannerBloc();
   final keywordsBloc = KeywordsBloc();
+  final bottombarBloc = BottomBarBloc();
   @override
   void initState() {
     bannerBloc.createToken();
@@ -35,44 +38,7 @@ class _DashboardWidget extends State<DashboardWidget> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        backgroundColor: colorScheme.surface,
-        selectedItemColor: Colors.blue[300],
-        unselectedItemColor: colorScheme.onSurface.withOpacity(.60),
-        selectedLabelStyle: textTheme.bodySmall,
-        unselectedLabelStyle: textTheme.bodySmall,
-        onTap: (value) {
-          // if (value == 0) {
-          //   Navigator.of(context).push(
-          //       MaterialPageRoute(builder: (context) => const HomeScreen()));
-          // } else if (value == 1) {
-          //   Navigator.of(context).push(
-          //       MaterialPageRoute(builder: (context) => const MyCollection()));
-          // }
-          // Respond to item press.
-          setState(() => _currentIndex = value);
-          print(_currentIndex);
-        },
-        items: const [
-          BottomNavigationBarItem(
-            label: 'Home',
-            icon: Icon(Icons.home_outlined),
-          ),
-          BottomNavigationBarItem(
-            label: 'Collections',
-            icon: Icon(Icons.shopping_cart_checkout_sharp),
-          ),
-          BottomNavigationBarItem(
-            label: 'Categories',
-            icon: Icon(Icons.category_outlined),
-          ),
-        ],
-      ),
-      body: Container(
-          child: MultiBlocProvider(
+    return MultiBlocProvider(
         providers: [
           BlocProvider<HomeBloc>(
             create: (context) => homeBloc,
@@ -83,17 +49,55 @@ class _DashboardWidget extends State<DashboardWidget> {
           BlocProvider<KeywordsBloc>(
             create: (context) => keywordsBloc,
           ),
+          BlocProvider<BottomBarBloc>(
+            create: (context) => bottombarBloc,
+          ),
         ],
-        child: BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            if (state is HomeLoaded) {
-              return dashoardScreens[_currentIndex];
-            } else {
-              return Container();
-            }
-          },
-        ),
-      )),
-    );
+        child: Scaffold(
+            bottomNavigationBar: BlocListener<BottomBarBloc, BottomBarState>(
+              listener: (context, state) {
+                if (state is BottomBarNewIndexUpdate) {
+                  setState(() => _currentIndex = state.newValue);
+                }
+              },
+              child: BottomNavigationBar(
+                key: bottomNavigationKey,
+                type: BottomNavigationBarType.fixed,
+                currentIndex: _currentIndex,
+                backgroundColor: colorScheme.surface,
+                selectedItemColor: Colors.blue[300],
+                unselectedItemColor: colorScheme.onSurface.withOpacity(.60),
+                selectedLabelStyle: textTheme.bodySmall,
+                unselectedLabelStyle: textTheme.bodySmall,
+                onTap: (value) {
+                  setState(() => _currentIndex = value);
+                },
+                items: const [
+                  BottomNavigationBarItem(
+                    label: 'Home',
+                    icon: Icon(Icons.home_outlined),
+                  ),
+                  BottomNavigationBarItem(
+                    label: 'Collections',
+                    icon: Icon(Icons.shopping_cart_checkout_sharp),
+                  ),
+                  BottomNavigationBarItem(
+                    label: 'Categories',
+                    icon: Icon(Icons.category_outlined),
+                  ),
+                ],
+              ),
+            ),
+            body: Container(
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state is HomeLoaded) {
+                    return dashoardScreens[_currentIndex];
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            )));
   }
 }
